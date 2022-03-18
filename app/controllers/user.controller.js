@@ -62,7 +62,7 @@ exports.signup = (req, res, next) => {
           // Encode the Buffer as a base64 string
           const encodedEmail = bufferObj.toString("base64");
           const message = `Please activate your account. Click ${
-            "localhost:8082" + "/activate/" + encodedEmail
+            "https://payfarm.org" + "/activate/" + encodedEmail
           }`;
           sendEmail({
             email: req.body.email,
@@ -126,9 +126,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3) Send it to user's email
-  const resetURL = "localhost:8082" + "/reset/" + resetToken;
+  const resetURL = "https://payfarm.org" + "/reset/" + resetToken;
 
-  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL} \nIf you didn't forget your password, please ignore this email!`;
+  const message = `Forgot your password? Submit a request with your new password and passwordConfirm to: ${resetURL} \nIf you didn't forget your password, please ignore this email!`;
 
   try {
     await sendEmail({
