@@ -1,4 +1,5 @@
 const User = require("../models/user.model.js");
+const Transaction = require("../models/transactions.model.js");
 const sendEmail = require("../util/email.js");
 const crypto = require("crypto");
 const jwt = require("../util/jwt.js");
@@ -413,11 +414,24 @@ exports.stkPush = (req, res) => {
 exports.stkCallback = (req, res) => {
   if(req.body.Body.stkCallback.ResultCode == 0){
     const data = req.body.Body.stkCallback.CallbackMetadata.Item;
-    const Amount = data[0].Value;
-    const MpesaReceiptNumber = data[1].Value;
-    const TransactionDate = new Date(data[2].Value);
-    const PhoneNumber = data[3].Value;
-    console.log(Amount,MpesaReceiptNumber,TransactionDate,PhoneNumber)
+    const transaction = new Transaction({
+      amount: data[0].Value,
+      receiptno: data[1].Value,
+      transactionid: new Date(data[2].Value),
+      phone: data[3].Value,
+    });
+    transaction
+    .save()
+    .then(() => {
+     return res.status(200).json({
+        message: "Transaction successfully!",
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error,
+      });
+    });
   }else {
     console.log("Transaction failed epically!")
   }
