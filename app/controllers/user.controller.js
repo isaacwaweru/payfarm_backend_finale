@@ -391,7 +391,7 @@ exports.stkPush = (req, res) => {
                           "PartyA": req.body.phone,
                           "PartyB": "569106",
                           "PhoneNumber": req.body.phone,
-                          "CallBackURL": "https://yotemarket.co.ke/test/callback_url.php",
+                          "CallBackURL": "http://128.199.0.133/stkcallback",
                           "AccountReference": "Payfarm",
                           "TransactionDesc": "Payfarm"
                       }
